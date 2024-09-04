@@ -5,6 +5,8 @@ public class Exploder : MonoBehaviour
     private const float MaxProbability = 1f;
     private const int ProbabilityDecreaseRatio = 2;
 
+    [SerializeField] private CubeSpawner _cubeSpawner;
+
     private float _probability = MaxProbability;
 
     private void Update()
@@ -15,7 +17,11 @@ public class Exploder : MonoBehaviour
             {
                 if (hitInfo.collider.TryGetComponent(out ExplosiveCube cube))
                 {
-                    cube.Explode(_probability);
+                    if (Random.value < _probability)
+                        _cubeSpawner.SpawnCubes(cube.transform.position);
+
+                    Destroy(cube.gameObject);
+
                     _probability /= ProbabilityDecreaseRatio;
                 }
             }
