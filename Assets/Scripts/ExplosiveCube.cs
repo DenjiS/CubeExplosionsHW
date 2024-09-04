@@ -4,7 +4,7 @@ using UnityEngine;
 public class ExplosiveCube : MonoBehaviour
 {
     private const int MinSpawnedInclusive = 2;
-    private const int MaxSpawnedExclusive = 6;
+    private const int MaxSpawnedExclusive = 7;
     private const int ScaleDecreaseRatio = 2;
 
     [SerializeField] private float _explodeForce = 5f;
