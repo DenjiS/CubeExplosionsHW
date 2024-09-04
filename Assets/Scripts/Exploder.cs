@@ -7,7 +7,7 @@ public class Exploder : MonoBehaviour
 
     private float _probability = MaxProbability;
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
