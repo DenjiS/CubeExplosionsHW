@@ -2,34 +2,27 @@ using UnityEngine;
 
 public class CubeSpawner : MonoBehaviour
 {
-    private const int MinSpawnedInclusive = 2;
-    private const int MaxSpawnedExclusive = 7;
-    private const int ScaleDecreaseRatio = 2;
+    [SerializeField] private int _minSpawnedInclusive = 2;
+    [SerializeField] private int _maxSpawnedExclusive = 6;
+    [SerializeField] private int _scaleDecreaseRatio = 2;
 
-    [SerializeField] private ExplosiveCube _template;
-    [SerializeField] private float _explodeForce = 5f;
 
-    public void SpawnCubes(Vector3 position)
+    public ExplosiveCube[] SpawnRandomAmount(ExplosiveCube cube)
     {
-        int spawnedAmount = Random.Range(MinSpawnedInclusive, MaxSpawnedExclusive);
+        int spawnedAmount = Random.Range(_minSpawnedInclusive, _maxSpawnedExclusive + 1);
+        ExplosiveCube[] cubes = new ExplosiveCube[spawnedAmount];
 
         for (int i = 0; i < spawnedAmount; i++)
-            Spawn(position);
+            cubes[i] = Spawn(cube);
+
+        return cubes;
     }
 
-    private void Spawn(Vector3 position)
+    private ExplosiveCube Spawn(ExplosiveCube cube)
     {
-        ExplosiveCube spawned = Instantiate(_template, position, Quaternion.identity);
-        spawned.transform.localScale /= ScaleDecreaseRatio;
-        spawned.GetComponent<MeshRenderer>().material.color = new(Random.value, Random.value, Random.value);
-
-        Rigidbody body = spawned.GetComponent<Rigidbody>();
-        body.isKinematic = false;
-        body.AddForce(GetRandomDirection() * _explodeForce);
-
-        Destroy(spawned);
+        ExplosiveCube spawned = Instantiate(cube);
+        spawned.Transform.localScale /= _scaleDecreaseRatio;
+        spawned.MeshRenderer.material.color = new(Random.value, Random.value, Random.value);
+        return spawned;
     }
-
-    private Vector3 GetRandomDirection() =>
-        new Vector3(Random.value, Random.value, Random.value).normalized;
 }

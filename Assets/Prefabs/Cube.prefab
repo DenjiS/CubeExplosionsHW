@@ -149,3 +149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95e3089d4e506ed4d94fe7d5ec246c8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _transform: {fileID: 5219071335758619068}
+  _rigidbody: {fileID: 7735928304403800327}
+  _meshRenderer: {fileID: 2261639933697047256}
+  _spawnProbability: 1
+  _probabilityDecreaseRatio: 2

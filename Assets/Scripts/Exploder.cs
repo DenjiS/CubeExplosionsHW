@@ -2,29 +2,22 @@ using UnityEngine;
 
 public class Exploder : MonoBehaviour
 {
-    private const float MaxProbability = 1f;
-    private const int ProbabilityDecreaseRatio = 2;
+    [SerializeField] private CubeSpawner _spawner;
+    [SerializeField] private float _explodeForce = 5f;
 
-    [SerializeField] private CubeSpawner _cubeSpawner;
-
-    private float _probability = MaxProbability;
-
-    private void Update()
+    public void Explode(ExplosiveCube cube)
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        ExplosiveCube[] spawnedCubes = new ExplosiveCube[0];
+
+        if (Random.value < cube.GetSpawnProbability())
+            spawnedCubes = _spawner.SpawnRandomAmount(cube);
+
+        Destroy(cube.gameObject);
+
+        foreach (ExplosiveCube spawnedCube in spawnedCubes)
         {
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out RaycastHit hitInfo))
-            {
-                if (hitInfo.collider.TryGetComponent(out ExplosiveCube cube))
-                {
-                    if (Random.value < _probability)
-                        _cubeSpawner.SpawnCubes(cube.transform.position);
-
-                    Destroy(cube.gameObject);
-
-                    _probability /= ProbabilityDecreaseRatio;
-                }
-            }
+            spawnedCube.Rigidbody.isKinematic = false;
+            spawnedCube.Rigidbody.AddForce(Random.insideUnitSphere * _explodeForce);
         }
     }
 }
