@@ -17,7 +17,7 @@ public class Exploder : MonoBehaviour
         foreach (ExplosiveCube spawnedCube in spawnedCubes)
         {
             spawnedCube.Rigidbody.isKinematic = false;
-            spawnedCube.Rigidbody.AddForce(Random.insideUnitSphere * _explodeForce);
+            spawnedCube.Rigidbody.AddForce(Random.insideUnitSphere.normalized * _explodeForce);
         }
     }
 }
